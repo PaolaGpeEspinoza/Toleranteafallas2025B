@@ -33,6 +33,9 @@ python prefectact.py
 -Se imprimirá en consola el tipo de cambio actual y la alerta correspondiente.
 -Se generará o actualizará el archivo historial_tipo_cambio.csv con la fecha, hora y valor del dólar.
 
+
+
+
 ---
 
 ## 🖼 Ejemplo de salida en consola
