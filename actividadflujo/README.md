@@ -20,11 +20,6 @@ Este proyecto implementa un **flujo de Prefect** que consulta el tipo de cambio 
   - `prefect`
   - `requests`
 
-Instalación rápida:
-
-```bash
-pip install prefect requests
-
 ---
 
 ## 🚀 Cómo ejecutar
