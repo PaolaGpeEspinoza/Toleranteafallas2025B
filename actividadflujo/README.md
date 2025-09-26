@@ -27,16 +27,16 @@ Este proyecto implementa un **flujo de Prefect** que consulta el tipo de cambio 
 1. Abre tu terminal o Anaconda Prompt.  
 2. Ve a la carpeta `actividadflujo` donde está tu script `prefectact.py`.  
 3. Ejecuta el flujo:
+      python prefectact.py
+-Se imprimirá en consola el tipo de cambio actual y la alerta correspondiente.
+-Se generará o actualizará el archivo historial_tipo_cambio.csv con la fecha, hora y valor del dólar.
 
-```bash
-python prefectact.py
-Se imprimirá en consola el tipo de cambio actual y la alerta correspondiente.
+---
 
-Se generará o actualizará el archivo historial_tipo_cambio.csv con la fecha, hora y valor del dólar.
+## 🖼 Ejemplo de salida en consola
+![Ejemplo de salida en consola](images/ejemconsol.png)
 
-🖼 Ejemplo de salida en consola
+## 🖼 Ejemplo del archivo .csv
+![Ejemplo de archivo .csv en carpeta](images/ejemcarpeta.png)
 
-
-🖼 Ejemplo del archivo .csv
-
-
+![Ejemplo de archivo .csv](images/ejemcsv.png)
