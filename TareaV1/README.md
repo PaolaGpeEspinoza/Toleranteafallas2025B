@@ -2,13 +2,16 @@
 
 ## Descripción
 
-Este proyecto simula un sistema de clasificación de correos electrónicos utilizando **N8N** para la automatización de flujos y un **LLM (ChatGPT)** a través de MCP para análisis de contenido. La idea principal es aprender a usar estas herramientas y simular un flujo de trabajo real, donde los correos se clasifican por **prioridad** y **categoría**.
+Este proyecto simula un sistema de clasificación de correos electrónicos utilizando **N8N** para la automatización de flujos y un **LLM** a través de MCP para análisis de contenido. La idea principal es aprender a usar estas herramientas y simular un flujo de trabajo real, donde los correos se clasifican por **prioridad** y **categoría**.
+
+![Flujo completo](images/1.png)
+
 
 ---
 
 ## Flujo de Trabajo en N8N
 
-### 1. Nodo Trigger
+### 1. Nodo Trigger (En este caso Inicio del flujo)
 
 Dispara el flujo automáticamente para simular la llegada de correos electrónicos.
 
