@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  auth_service:
+    build: ./auth_service
+    container_name: auth_service
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./auth_service/users.json:/app/users.json
+
+  products_service:
+    build: ./products_service
+    container_name: products_service
+    ports:
+      - "8002:8002"
+    depends_on:
+      - auth_service
+    volumes:
+      - ./products_service/products.json:/app/products.json
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      - auth_service
+      - products_service

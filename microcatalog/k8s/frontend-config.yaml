@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+data:
+  AUTH_URL: "http://auth-service:8001"
+  PRODUCTS_URL: "http://products-service:8002"
