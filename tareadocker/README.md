@@ -1,10 +1,10 @@
-====================================================
-EJEMPLO UTILIZANDO DOCKER
-====================================================
 
-====================================================
-1. DESCRIPCIÓN
-====================================================
+*EJEMPLO UTILIZANDO DOCKER*
+
+
+
+**1. DESCRIPCIÓN**
+
 
 Esta tarea consiste en una aplicación basada en una arquitectura de microservicios, contenedorizada utilizando Docker. La aplicación está dividida en tres servicios
 independientes:
@@ -16,9 +16,9 @@ independientes:
 Cada microservicio se ejecuta en su propio contenedor Docker, permitiendo un diseño
 modular, desacoplado y escalable.
 
-====================================================
-2. TECNOLOGÍAS UTILIZADAS
-====================================================
+
+**2. TECNOLOGÍAS UTILIZADAS**
+
 
 - Docker
 - Docker Compose
@@ -26,9 +26,8 @@ modular, desacoplado y escalable.
 - FastAPI
 - Streamlit
 
-====================================================
-3. ESTRUCTURA DEL PROYECTO
-====================================================
+
+**3. ESTRUCTURA DEL PROYECTO**
 
 El proyecto tiene la siguiente estructura:
 
@@ -48,9 +47,9 @@ El proyecto tiene la siguiente estructura:
 
 docker-compose.yml
 
-====================================================
-4. DESCRIPCIÓN DE LOS MICROSERVICIOS
-====================================================
+
+**4. DESCRIPCIÓN DE LOS MICROSERVICIOS**
+
 
 AUTH SERVICE:
 - Se encarga de la autenticación de usuarios.
@@ -67,9 +66,9 @@ FRONTEND:
 - Permite iniciar sesión y gestionar productos.
 - Se ejecuta en el puerto 8501.
 
-====================================================
-5. ARCHIVO docker-compose.yml
-====================================================
+
+**5. ARCHIVO docker-compose.yml**
+
 
 Docker Compose se utiliza para orquestar los tres microservicios y facilitar su despliegue.
 
@@ -79,9 +78,9 @@ El archivo docker-compose.yml permite:
 - Establecer dependencias entre servicios.
 - Mantener persistencia de datos mediante volúmenes.
 
-====================================================
-6. DESPLIEGUE DEL PROYECTO
-====================================================
+
+**6. DESPLIEGUE DEL PROYECTO**
+
 
 Para ejecutar el proyecto, seguir los siguientes pasos:
 
@@ -108,9 +107,9 @@ docker ps
 
 ![front image](images/front.png)
 
-====================================================
-7. RESULTADOS OBTENIDOS
-====================================================
+
+**7. RESULTADOS OBTENIDOS**
+
 
 El proyecto se ejecuta correctamente utilizando Docker, logrando:
 
@@ -119,12 +118,13 @@ El proyecto se ejecuta correctamente utilizando Docker, logrando:
 - Facilidad de despliegue y ejecución.
 - Base sólida para escalar a Kubernetes.
 
-====================================================
-8. CONCLUSIÓN
-====================================================
+
+**8. CONCLUSIÓN**
+
 
 El uso de Docker permitió empaquetar cada microservicio de forma independiente,
 asegurando portabilidad y facilidad de despliegue. Esta arquitectura facilita
 la escalabilidad, el mantenimiento y sienta las bases para una arquitectura tolerante
 a fallos y orquestada posteriormente con Kubernetes.
+
 
