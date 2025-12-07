@@ -1,0 +1,18 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-frontend-to-auth
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: auth-service
+  rules:
+  - from:
+    - source:
+        principals: ["spiffe://cluster.local/ns/default/sa/frontend-sa"]
+    to:
+    - operation:
+        methods: ["GET", "POST"]
+        ports: ["8001"]
+

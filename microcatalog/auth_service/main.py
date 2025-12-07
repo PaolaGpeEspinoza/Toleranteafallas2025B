@@ -84,6 +84,13 @@ def signup(data: UserSignup):
     save_users(users)
     return {"message": "Usuario registrado correctamente"}
 
+# -------------------------------------------------
+# ENDPOINT DE SALUD PARA KUBERNETES (Liveness/Readiness)
+# -------------------------------------------------
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
 @app.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
     users = load_users()

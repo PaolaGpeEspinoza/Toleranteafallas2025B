@@ -60,6 +60,10 @@ def save_products(products):
 def get_products():
     return load_products()
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
 @app.post("/products/add")
 def add_product(product: Product, token_data: dict = Depends(verify_token)):
     products = load_products()

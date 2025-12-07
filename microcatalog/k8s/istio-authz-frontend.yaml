@@ -1,0 +1,19 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-frontend
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  rules:
+  - from:
+    - source:
+        principals:
+        - "spiffe://cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"
+        - "spiffe://cluster.local/ns/default/sa/frontend-sa"
+    to:
+    - operation:
+        methods: ["GET", "POST"]
+        ports: ["8501"]

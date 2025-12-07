@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: delay-products
+  namespace: default
+spec:
+  hosts:
+  - products-service
+  http:
+  - fault:
+      delay:
+        fixedDelay: 5s
+        percentage:
+          value: 100
+    route:
+    - destination:
+        host: products-service
+        port:
+          number: 8002

@@ -1,241 +1,178 @@
-# Microcatalog – Proyecto de Microservicios con Docker y Kubernetes  
-**Versión v1 – Avance del Proyecto Final**
+# Microcatalog  
+### Arquitectura de Microservicios Tolerante a Fallas con Kubernetes e Istio
 
-Este proyecto implementa una arquitectura basada en microservicios para gestionar autenticación de usuarios, productos y un frontend que consume los servicios mediante API. Cada microservicio está completamente aislado, contenerizado con Docker e implementado en un clúster de Kubernetes mediante Deployments, Services, ConfigMaps y Secrets.
-
----
-
-# Arquitectura del Proyecto
-
-El sistema está compuesto por **tres microservicios** independientes:
-
-### **1. Auth Service (Python + FastAPI)**
-Encargado del registro, login y validación de tokens JWT.  
-Incluye:
-- Hashing de contraseñas con bcrypt  
-- Generación y validación de JWT  
-- Endpoints protegidos  
-- Uso de un Secret de Kubernetes para almacenar la clave privada
-
-### **2. Products Service (Python + FastAPI)**
-Proporciona operaciones CRUD para productos.  
-Incluye:
-- Validación de tokens contra el Auth Service  
-- Configuración por medio de ConfigMaps  
-- Comunicación REST entre microservicios
-
-### **3. Frontend (Python + Tkinter / Web según la etapa)**
-Interfaz gráfica que permite:
-- Iniciar sesión  
-- Listar productos  
-- Crear, editar y eliminar productos  
-
-El frontend se conecta a los Services de Kubernetes utilizando variables de entorno.
+Proyecto desarrollado para la materia **Computación Tolerante a Fallas**, cuyo objetivo es diseñar, desplegar y validar una arquitectura basada en microservicios capaz de **soportar fallos parciales sin comprometer la disponibilidad del sistema**.
 
 ---
 
-# 🐳 Contenerización con Docker
+## 📌 Objetivo del Proyecto
 
-Cada microservicio está empaquetado e aislado mediante su propio Dockerfile, conteniendo:
-- Código fuente  
-- Dependencias  
-- Configuraciones independientes  
-
-Esto asegura que cada servicio funcione igual en cualquier entorno.
+- Implementar una arquitectura de microservicios modular y escalable.
+- Garantizar tolerancia a fallas mediante Kubernetes e Istio.
+- Analizar el comportamiento del sistema ante fallos controlados.
+- Visualizar tráfico, errores y recuperación usando herramientas de observabilidad.
 
 ---
 
-# ☸️ Orquestación con Kubernetes
+## 🧩 Arquitectura General
 
-El proyecto utiliza Kubernetes para administrar el ciclo de vida de los contenedores:
+El sistema está compuesto por los siguientes microservicios:
 
-- **Deployments** → Crean y gestionan Pods de cada microservicio  
-- **Services** → Permiten que los microservicios se comuniquen  
-- **ConfigMaps** → Proveen ajustes como URLs internas  
-- **Secrets** → Guardan información sensible como el SECRET_KEY  
-- **NodePort** → Expone el frontend fuera del clúster  
+- **Frontend:** Interfaz de usuario.
+- **Auth Service:** Servicio de autenticación.
+- **Products Service:** Gestión de productos.
+- **Istio Service Mesh:** Gestión de tráfico, observabilidad y tolerancia a fallas.
+- **Kubernetes:** Orquestación y recuperación automática.
 
-Esto garantiza escalabilidad, resiliencia y actualizaciones sin downtime.
-
----
-
-# 🔐 Seguridad
-
-- JWT para autenticación  
-- Hashing seguro  
-- Comunicación entre microservicios mediante Services internos de Kubernetes  
-- Secrets para evitar incluir claves en el código  
+### Diagrama de Arquitectura
+![Arquitectura del sistema](images/arquitec.png)
 
 ---
 
-# 📦 Estructura del Proyecto
+## 🐳 Contenerización con Docker
 
-```
-microcatalog/
- ├── auth_service/
- │    ├── main.py
- │    ├── requirements.txt
- │    └── Dockerfile
- ├── products_service/
- │    ├── main.py
- │    ├── requirements.txt
- │    └── Dockerfile
- ├── frontend/
- │    ├── main.py
- │    ├── requirements.txt
- │    └── Dockerfile
- ├── k8s/
- │    ├── auth-service.yaml
- │    ├── products-service.yaml
- │    ├── frontend.yaml
- │    ├── auth-secret.yaml
- │    ├── products-config.yaml
- │    └── frontend-config.yaml
- └── README.md
-```
+Cada microservicio fue empaquetado en un contenedor Docker incluyendo:
+
+- Código fuente
+- Dependencias
+- Configuración necesaria
+
+Esto permite que cada servicio funcione de forma **independiente y aislada**.
 
 ---
 
-# 🚀 Tutorial Completo: Cómo Desplegar el Proyecto
+## ☸️ Orquestación con Kubernetes
 
-Este tutorial permite que **cualquier persona**, sin saber nada de Kubernetes, pueda correr tu proyecto.
+Kubernetes se encarga de:
 
----
+- Despliegue de microservicios
+- Balanceo de carga
+- Reinicio automático de pods fallidos
+- Escalabilidad del sistema
 
-## 🔧 1. Instalar Herramientas Requeridas
+Los manifiestos de Kubernetes se encuentran en la carpeta:
 
-### **Docker Desktop**
-https://www.docker.com/products/docker-desktop/
-
-Activa **Kubernetes** solo si lo piden, pero usaremos Minikube.
-
-### **Kubectl**
-https://kubernetes.io/docs/tasks/tools/
-
-### **Minikube**
-https://minikube.sigs.k8s.io/docs/start/
+/k8s
 
 ---
 
-## 🚀 2. Iniciar Minikube
+## 🔁 Comunicación entre Microservicios
 
-```bash
-minikube start
-```
-
-Verifica que el clúster está activo:
-
-```bash
-kubectl get nodes
-```
+- Los microservicios se comunican mediante **APIs REST**.
+- Kubernetes provee descubrimiento de servicios.
+- Istio monitorea y controla el tráfico interno.
 
 ---
 
-## 🏗️ 3. Construir las imágenes con Minikube
+## 🔐 Seguridad
 
-Primero conecta Docker al entorno de Minikube:
-
-```bash
-minikube docker-env
-```
-
-Luego ejecuta:
-
-```bash
-& minikube -p minikube docker-env | Invoke-Expression
-```
-
-Ahora construye las imágenes:
-
-```bash
-docker build -t auth_service:1.0 ./auth_service
-docker build -t products_service:1.0 ./products_service
-docker build -t frontend:1.0 ./frontend
-```
+- Autenticación centralizada mediante Auth Service.
+- Comunicación controlada entre servicios.
+- Separación de responsabilidades por servicio.
 
 ---
 
-## 🔐 4. Crear los Secrets y ConfigMaps
+## 👀 Observabilidad con Istio y Kiali
 
-```bash
-kubectl apply -f k8s/auth-secret.yaml
-kubectl apply -f k8s/products-config.yaml
-kubectl apply -f k8s/frontend-config.yaml
-```
+Se utilizó **Kiali** para monitorear el comportamiento del sistema:
 
----
+- Visualización de servicios
+- Tráfico entre microservicios
+- Latencia y errores
+- Impacto de fallas inyectadas
 
-## ☸️ 5. Desplegar los microservicios
+### Vista general en Kiali
+![Kiali Overview](images/arquitec.png)
 
-```bash
-kubectl apply -f k8s/auth-service.yaml
-kubectl apply -f k8s/products-service.yaml
-kubectl apply -f k8s/frontend.yaml
-```
+### Grafo de servicios
+![Kiali Graph](images/kiali.png)
 
-Verifica:
-
-```bash
-kubectl get pods
-kubectl get svc
-```
 
 ---
 
-## 🌐 6. Conectar al Frontend
+## 🧪 Pruebas Funcionales
 
-El frontend usa NodePort, así que exponlo:
+### Login de usuario
+![Login](images/primera.png)
 
-```bash
-minikube service frontend
-```
+### Gestión de productos
+![Productos](images/verprod.png)
+![Productos](images/agregarprod.png)
+![Productos](images/eliminarprod.png)
 
-Esto abrirá automáticamente el navegador con una URL como:
-
-```
-http://192.168.49.2:30080
-```
+📸 Pantallas del frontend funcionando normalmente.
 
 ---
 
-## ✔️ 7. Comprobar funcionamiento
+## 💥 Ingeniería del Caos (Chaos Engineering)
 
-- Inicia sesión  
-- Agrega productos  
-- Elimínalos  
-- Revisa Pods en Kubernetes:
+Se realizaron pruebas de **inyección de fallos controlados** utilizando Istio para evaluar la tolerancia a fallas del sistema.
 
-```bash
-kubectl describe pod nombre-del-pod
-```
+### ⏱️ Inyección de Delay
 
----
+- Se simuló latencia en el servicio de productos.
+- El frontend continuó funcionando.
+- Se observó incremento de latencia sin caída del sistema.
 
-# 📄 Estado del Proyecto (v1.1)
-
-| Módulo | Estado | Detalles |
-|-------|--------|----------|
-| Auth Service | ✔️ Completo | Docker + K8s + Secret + JWT |
-| Products Service | ✔️ Completo | CRUD + Validación JWT + ConfigMap |
-| Frontend | ✔️ Funcional | Consume APIs del clúster |
-| Docker | ✔️ Completo | Imágenes de los 3 servicios |
-| Kubernetes | ✔️ Parcial | Falta Istio/monitorización y CI/CD |
-| Seguridad | ✔️ Parcial | JWT + Secrets, falta TLS |
-| Documentación | ✔️ Avanzada | README v1.1 listo |
+![Chaos Delay](images/delay.png)
 
 ---
 
-# 📝 Próximos pasos (para la versión final)
+### ❌ Inyección de Errores (Abort)
 
-- Agregar monitoreo (Opcional/Mínimo)  
-- Preparar presentación final  
-- Añadir pruebas simples  
-- Agregar un pequeño pipeline CI/CD con GitHub Actions (si lo permites)  
-- Opcional: Ingeniería del caos con `kubectl delete pod`  
+- Se simuló una falla HTTP 503 en el Auth Service.
+- El fallo fue aislado.
+- El sistema permaneció disponible.
+
+![Chaos Abort](images/abort.png)
+![Chaos Abort](images/abort2.png)
 
 ---
 
-# 🎉 Créditos
+## 🔄 Recuperación ante Fallos
 
-Proyecto desarrollado por **Paola Espinoza**, como implementación académica de arquitectura de microservicios con Docker y Kubernetes.
+- Al eliminar pods manualmente, Kubernetes los recreó automáticamente.
+- El tráfico se redirigió sin intervención del usuario.
+- El sistema demostró alta disponibilidad.
 
+---
+
+## 🛠️ Guía de Despliegue
+
+### Requisitos
+
+- Docker
+- Kubernetes (Minikube)
+- Istio
+- Kubectl
+
+### Pasos generales de despliegue
+
+minikube start  
+istioctl install  
+kubectl apply -f k8s/  
+kubectl apply -f chaos/  
+
+📌 Los pasos detallados se encuentran documentados en el proyecto.
+
+---
+
+## 📊 Resultados
+
+- El sistema continúa operando ante fallas parciales.
+- Los errores son detectados y visualizados en tiempo real.
+- Se cumple con los principios de computación tolerante a fallas.
+
+---
+
+## ✅ Conclusiones
+
+Este proyecto demuestra cómo una arquitectura basada en microservicios, apoyada por Kubernetes e Istio, puede ofrecer **resiliencia, observabilidad y tolerancia a fallas**, cumpliendo con los objetivos de la materia.
+
+---
+
+## 📎 Presentación del Proyecto
+
+La presentación utilizada para la exposición se encuentra en:
+
+/microcatalog/proyectofinal.pptx
