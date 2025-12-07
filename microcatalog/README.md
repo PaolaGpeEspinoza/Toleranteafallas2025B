@@ -171,8 +171,3 @@ Este proyecto demuestra cómo una arquitectura basada en microservicios, apoyada
 
 ---
 
-## 📎 Presentación del Proyecto
-
-La presentación utilizada para la exposición se encuentra en:
-
-/microcatalog/proyectofinal.pptx
